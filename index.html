@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Substitution Cipher</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/app.css">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <form>
+      <nav id="mainNav" class="navbar navbar-toggleable-md navbar-light bg-faded">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#">SubCipher</a>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <span class="navbar-text">
+            A simple substitution cipher app
+          </span>
+        </div>
+        <form class="form-inline">
+          <button class="btn btn-secondary" type="button" data-bind="click: $root.substitutionList.reseed">Re-seed</button>
+        </form>
+      </nav>
+
+      <div id="mainContent" class="container">
+       <div class="form-group">
+         <textarea class="form-control" id="plainText" rows="3" placeholder="Plain Text" data-bind="textInput: plainText"></textarea>
+       </div>
+
+        <div class="card">
+          <div class="card-block">
+            <div data-bind="html: cipherText"></div>
+          </div>
+        </div>
+
+        <div id="substitutionList" class="d-flex justify-content-start flex-wrap" style="margin: 1em auto">
+          <!-- ko foreach: substitutionList.list -->
+            <div class="p-2">
+              <div class="input-group">
+                <div class="input-group-btn">
+                  <button data-bind="attr: {id: 'fromGroupDrop' + $index()}, enable: $root.substitutionList.availableFrom().length > 0" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span style="font-family: monospace;" data-bind="text: from"></span>
+                  </button>
+                  <div class="dropdown-menu" data-bind="attr: {'aria-labelledby': 'fromGroupDrop' + $index()}">
+                    <!-- ko foreach: $root.substitutionList.availableFrom -->
+                      <a class="dropdown-item" href="#" data-action="updateFrom" data-bind="text: $data, click: function(data, event){$root.substitutionList.updateFrom($parent, data);}"></a>
+                    <!-- /ko -->
+                  </div>
+                </div>
+                <span class="input-group-addon" id="sizing-addon1">=</span>
+                <div class="input-group-btn">
+                  <button  data-bind="attr: {id: 'toGroupDrop' + $index()}, enable: $root.substitutionList.availableTo().length > 0" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span style="font-family: monospace;" data-bind="text: to"></span>
+                  </button>
+                  <div class="dropdown-menu" data-bind="attr: {'aria-labelledby': 'toGroupDrop' + $index()}">
+                    <!-- ko foreach: $root.substitutionList.availableTo -->
+                      <a class="dropdown-item" href="#" data-action="updateTo" data-bind="text: $data, click: function(data, event){$root.substitutionList.updateTo($parent, data);}"></a>
+                    <!-- /ko -->
+                  </div>
+                </div>
+                <span class="input-group-btn">
+                  <button type="button"  data-action="delete" class="btn btn-secondary" data-bind="click: $root.substitutionList.remove"><span aria-hidden="true">&times;</span></button>
+                </span>
+              </div>
+            </div>
+          <!-- /ko -->
+          <div class="p-2">
+            <div class="input-group">
+              <span class="input-group-btn">
+                <button id="addSubstitution"  data-action="add" data-key="" class="btn btn-secondary" type="button" data-bind="enable: substitutionList.availableFrom().length > 0, click: $root.substitutionList.add">+</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </form> 
+  </body>
+  <script data-main="js/dom" src="js/require.js"></script>
+</html>
